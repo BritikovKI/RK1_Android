@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 
@@ -34,10 +36,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         }
 
         RecyclerView recView =(RecyclerView) findViewById(R.id.num_view);
+        recView.setVisibility(View.VISIBLE);
         recView.setLayoutManager(new GridLayoutManager(this,3));
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,numbers);
         adapter.setClickListener(this);
         recView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        RecyclerView recyclerView = findViewById(R.id.num_view);
+        recyclerView.setVisibility(View.VISIBLE);
+        super.onBackPressed();
     }
 
     @Override
@@ -50,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         String str =Integer.toString(position+1);
         bundle.putString("num",str);
         numFragment.setArguments(bundle);
+        RecyclerView recyclerView = findViewById(R.id.num_view);
+        recyclerView.setVisibility(View.INVISIBLE);
         transaction.replace(R.id.main, numFragment);
         transaction.addToBackStack(null);
         transaction.commit();
